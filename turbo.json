@@ -1,0 +1,61 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["pnpm-lock.yaml", "tsconfig.json", ".gitignore"],
+  "globalEnv": [],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".svelte-kit/**", ".wrangler/**", "build/**"],
+      "passThroughEnv": ["NODE_ENV", "CI"]
+    },
+    "lint": {
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        "test/**/*.ts",
+        "*.js", //
+        "tsconfig.json",
+        ".prettierrc",
+        ".eslint.config.js",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "check": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        "test/**/*.ts",
+        "tsconfig.json",
+        "svelte.config.js",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "tsconfig.json",
+        "vitest.config.mts"
+      ],
+      "outputs": ["coverage/**"],
+      "passThroughEnv": ["CI"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+	"name": "worker",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev --show-interactive-dev-session=false --port 5777 --inspector-port 5778",
+		"test": "vitest",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "wrangler d1 migrations apply workers-effect ",
+		"db:migrate:prod": "wrangler d1 migrations apply workers-effect --remote",
+		"db:studio": "drizzle-kit studio"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.8.24",
+		"drizzle-kit": "^0.31.1",
+		"vitest": "~3.1.2",
+		"@types/node": "^22.15.3"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.44.2",
+		"drizzle-seed": "^0.3.1"
+	}
+}
