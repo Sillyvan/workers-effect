@@ -2,6 +2,8 @@ import { WorkerEntrypoint } from 'cloudflare:workers';
 import { Effect } from 'effect';
 import * as schema from './db/schema';
 import { DatabaseService, DatabaseServiceLive } from './db/db';
+import { drizzle } from 'drizzle-orm/d1';
+import { seedProducts } from './db/seed';
 
 export default class extends WorkerEntrypoint<Env> {
 	async getProducts(): Promise<schema.Product[]> {
@@ -11,5 +13,9 @@ export default class extends WorkerEntrypoint<Env> {
 		});
 
 		return Effect.runPromise(Effect.provide(program, DatabaseServiceLive(this.env.DB)));
+	}
+	async seedProducts() {
+		const db = drizzle(this.env.DB);
+		await seedProducts(db, 1000);
 	}
 }
