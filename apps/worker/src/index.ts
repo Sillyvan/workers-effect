@@ -1,15 +1,15 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
-import { getDb } from './db/db';
+import { Effect } from 'effect';
 import * as schema from './db/schema';
-// import { seedProducts } from './db/seed';
+import { DatabaseService, DatabaseServiceLive } from './db/db';
 
 export default class extends WorkerEntrypoint<Env> {
 	async getProducts(): Promise<schema.Product[]> {
-		const db = getDb(this.env.DB);
+		const program = Effect.gen(function* () {
+			const db = yield* DatabaseService;
+			return yield* db.getProducts;
+		});
 
-		// await seedProducts(db, 10000);
-		const allProducts = await db.select().from(schema.products);
-
-		return allProducts;
+		return Effect.runPromise(Effect.provide(program, DatabaseServiceLive(this.env.DB)));
 	}
 }
