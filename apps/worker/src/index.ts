@@ -6,6 +6,9 @@ import { drizzle } from 'drizzle-orm/d1';
 import { seedProducts } from './db/seed';
 
 export default class extends WorkerEntrypoint<Env> {
+	async fetch() {
+		return new Response('Hello from Worker');
+	}
 	async getProducts(): Promise<schema.Product[]> {
 		const program = Effect.gen(function* () {
 			const db = yield* DatabaseService;

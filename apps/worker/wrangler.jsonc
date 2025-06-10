@@ -22,7 +22,7 @@
 		{
 			"binding": "DB",
 			"database_name": "workers-effect",
-			"database_id": "c462d6e8-db74-4e1d-afb0-bc1e262382d7",
+			"database_id": "8f4689e2-37cb-457c-8310-9c9a0a0b3750",
 			"migrations_dir": "drizzle",
 		},
 	],
